@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find hector_gazebo_worlds)/launch/start.launch">
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/cave.world"/>  -->
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/flash_light_example.world"/>  -->
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/led_exmaple.world"/>  -->
+    <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/tunnel_practice_1.world"/> 
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/tunnel_practice_2.world"/>  -->
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/tunnel_qual.world"/>  -->
+    <!-- <arg name="world" value="/home/erush91-sim/subt/subt_gazebo/worlds/urban_underground.world"/>  -->
+  </include>
+
+  <!-- Spawn simulated quadrotor uav -->
+  <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch" >
+    <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+    <arg name="controllers" value="
+        controller/attitude
+        controller/velocity
+        controller/position
+        "/>
+  </include>
+
+  <!-- Start rviz visualization with preset config -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hector_quadrotor_demo)/rviz_cfg/indoor_flight.rviz"/>
+
+  <include file="$(find hector_quadrotor_teleop)/launch/xbox_controller.launch" >
+    <arg name="control_mode" value="position"/>
+  </include>
+
+</launch>
